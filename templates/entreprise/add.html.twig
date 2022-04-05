@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste entreprises{% endblock %}
+
+{% block body %}
+    {{ form_start(formEntreprise) }}
+        <div class="form-group">
+            {{form_row(formEntreprise.raisonSociale)}}
+        </div>
+        {{form_row(formEntreprise.siret)}}
+        {{form_row(formEntreprise.adresse)}}
+        {{form_row(formEntreprise.cp)}}
+        {{form_row(formEntreprise.ville)}}
+        {{form_row(formEntreprise.dateCreation)}}
+    {{ form_end(formEntreprise) }}
+{% endblock %}

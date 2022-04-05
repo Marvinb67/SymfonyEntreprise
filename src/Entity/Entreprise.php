@@ -166,6 +166,11 @@ class Entreprise
         return $this;
     }
 
+    public function adresseFull()
+    {
+        return $this->adresse.' '.$this->cp.' '.$this->ville;
+    }
+
     public function __toString()
     {
         return $this->raisonSociale;

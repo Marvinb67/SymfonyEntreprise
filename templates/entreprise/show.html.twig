@@ -3,5 +3,29 @@
 {% block title %}Liste employes{% endblock %}
 
 {% block body %}
-    <p>{{ entreprise}}</p>
+    <h1><i class="fa-solid fa-city"></i> {{ entreprise}}</h1>
+    <a><i class="fa-solid fa-pen-to-square"></i></a>
+    <p>Date de creation : {{ entreprise.dateCreation | date('d-m-Y')}}</p>
+    <p>Adresse : {{ entreprise.adresseFull }}</p>
+
+    <h2 class="my-4">Liste des employes <span>{{ entreprise.employes | length() }}</span></h2>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Employé</th>
+                <th>Date d'embauche</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employe in entreprise.employes %}
+                <tr>
+                    <td><a href="{{ path('show_employe', {'id': employe.id}) }}">{{ employe }}</a></td>
+                    <td>{{ employe.dateEmbauche | date('d-m-Y') }}</td>
+                    <td><a href=""><i class="fa-solid fa-trash-can"></i></a> <a href=""><i class="fa-solid fa-pen-to-square"></i></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
