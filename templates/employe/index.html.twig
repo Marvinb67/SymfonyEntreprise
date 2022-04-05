@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste employes{% endblock %}
+
+{% block body %}
+    {% for employe in employes %}
+        <p>{{ employe }} <a href="{{ path('show_entreprise', {'id': employe.entreprise.id}) }}">{{employe.entreprise.raisonSociale }}</a></p>
+    {% endfor %}
+{% endblock %}
