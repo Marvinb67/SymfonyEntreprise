@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    <h1>Application Entreprise / Employés</h1>
+    <p>Bienvenue dans cette application permettant la gestion d'entreprises. Ce projets sert d'introduction à symfony !</p>
+
+<div id="acceuil">
+    <div id="entreprise" class="bg-primary">
+        <p class="text-light mb-0">Entreprises</p>
+        <a href="{{ path('index_entreprise')}}" class="btn btn-light"><i class="fa-solid fa-bars"></i> Liste des entreprises</a>
+        <p id="nbEntreprises">{{ entreprises | length() }} entreprises</p>
+    </div>
+    <div id="employe" class="bg-warning">
+        <p class="text-light mb-0">Employés</p>
+        <a href="{{ path('index_employe')}}" class="btn btn-light"><i class="fa-solid fa-bars"></i> Liste des employés</a>
+        <p id="nbEmployes">{{ employes | length() }} employés</p>
+    </div>
+</div>
+{% endblock %}

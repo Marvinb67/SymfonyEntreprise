@@ -6,9 +6,11 @@ use App\Entity\Employe;
 use App\Form\EmployeType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class EmployeController extends AbstractController
 {
@@ -28,7 +30,7 @@ class EmployeController extends AbstractController
      * @Route("/employe/add", name="add_employe")
      * @Route("/employe/update/{id}", name="update_employe")
      */
-    public function add(ManagerRegistry $doctrine, Employe $employe = null, Request $request)
+    public function add(ManagerRegistry $doctrine, Employe $employe = null, Request $request, SluggerInterface $slugger)
     {
         if (!$employe) {
             $employe = new Employe();
@@ -39,6 +41,24 @@ class EmployeController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $employe = $form->getData();
+
+            // Upload d'image
+
+            $imagesUpload = $form->get('image')->getData();
+
+            if ($imagesUpload) {
+                $orignalFilename = pathinfo($imagesUpload->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($orignalFilename);
+                $fileName = $safeFilename.'-'.uniqid().'.'.$imagesUpload->guessExtension();
+
+                try {
+                    $imagesUpload->move($this->getParameter('images_upload'), $fileName);
+                } catch (FileException $e) {
+                    throw $e->getMessage($fileName);
+                }
+
+                $employe->setImageFileName($fileName);
+            }
             $entityManager->persist($employe);
             $entityManager->flush();
 
@@ -59,6 +79,11 @@ class EmployeController extends AbstractController
 
         $entityManager->remove($employe);
 
+        $fileName = $employe->getImageFileName();
+
+        if (file_exists($fileName)) {
+            unlink($fileName);
+        }
         $entityManager->flush();
 
         return $this->redirectToRoute('index_employe');

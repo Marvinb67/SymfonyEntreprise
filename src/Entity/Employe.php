@@ -58,6 +58,11 @@ class Employe
      */
     private $entreprise;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imageFileName;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -159,9 +164,52 @@ class Employe
         return $this;
     }
 
+    public function getImageFileName(): ?string
+    {
+        return $this->imageFileName;
+    }
+
+    public function setImageFileName(?string $imageFileName): self
+    {
+        $this->imageFileName = $imageFileName;
+
+        return $this;
+    }
+
+    // Nouvelles méthodes
+
+    //Affiche l'adresse complete d'un employé (Adresse, ville, code postale)
+
     public function adresseFull()
     {
         return $this->adresse.' '.$this->cp.' '.$this->ville;
+    }
+
+    // Affiche la liste des collegues d'un employé
+
+    public function getCollegues()
+    {
+        return $this->getEntreprise()->getEmployes();
+    }
+
+    // Calcul l'age d'une personne a partir de sa date de naissanvce
+
+    public function getAge()
+    {
+        $ajd = new \DateTime();
+        $anniversaire = $this->dateNaissance;
+
+        return $ajd->diff($anniversaire, true)->format('%Y ans');
+    }
+
+    // Calcul de l'ancienté d'un employé
+
+    public function getAnciente()
+    {
+        $ajd = new \DateTime();
+        $debut = $this->dateEmbauche;
+
+        return $ajd->diff($debut, true)->format('%y ans %m mois');
     }
 
     public function __toString()

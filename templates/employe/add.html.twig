@@ -3,5 +3,14 @@
 {% block title %}Liste entreprises{% endblock %}
 
 {% block body %}
-{{ form(formEmploye) }}
+    {{ form_start(formEmploye) }}
+        {{form_row(formEmploye.nom)}}
+        {{form_row(formEmploye.prenom)}}
+        {{form_row(formEmploye.dateNaissance)}}
+        {{form_row(formEmploye.adresse)}}
+        {{form_row(formEmploye.cp)}}
+        {{form_row(formEmploye.dateEmbauche)}}
+        {{form_row(formEmploye.image)}}
+        {{form_row(formEmploye.entreprise)}}
+    {{ form_end(formEmploye) }}
 {% endblock %}

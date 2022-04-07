@@ -3,7 +3,7 @@
 {% block title %}Liste entreprises{% endblock %}
 
 {% block body %}
-    <h1>Liste des entreprises <span>{{ entreprises | length() }}</span></h1>
+    <h1>Liste des entreprises <span class="btn btn-primary text-light">{{ entreprises | length() }}</span></h1>
     <a href="{{ path('add_entreprise') }}" class="btn btn-success my-5">Ajouter une entreprise</a><br>
 
     <table class="table">
@@ -19,7 +19,7 @@
                 <tr>
                     <td><a href="{{ path('show_entreprise', {'id': entreprise.id}) }}">{{ entreprise }}</a></td>
                     <td>{{ entreprise.employes | length() }}</td>
-                    <td><a href="{{ path('delete_entreprise', {'id': entreprise.id}) }}"><i class="fa-solid fa-trash-can"></i></a> <a href="{{ path('update_entreprise', {'id': entreprise.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                    <td><a href="{{ path('delete_entreprise', {'id': entreprise.id})}}" class="btn btn-danger text-light"><i class="fa-solid fa-trash-can"></i></a> <a href="{{ path('update_entreprise', {'id': entreprise.id})}}" class="btn btn-warning text-light"><i class="fa-solid fa-pen-to-square"></i></a></td>
                 </tr>
             {% endfor %}
         </tbody>
